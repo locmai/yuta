@@ -21,7 +21,7 @@ func main() {
 
 	js := jetstream.Prepare(&cfg.JetStream)
 
-	if cfg.Metrics.Enabled {
+	if cfg.CommonConfig.Metrics.Enabled {
 		router.Path("/metrics").Handler(promhttp.Handler())
 	}
 	router.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
@@ -30,18 +30,18 @@ func main() {
 
 	coreProducer := &producers.CoreProducer{
 		JetStream: js,
-		Topic:     cfg.JetStream.TopicFor(jetstream.ActionableItemEvent),
+		Topic:     cfg.CommonConfig.JetStream.TopicFor(jetstream.ActionableItemEvent),
 	}
 
 	srv := &http.Server{
 		Handler:      router,
-		Addr:         fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port),
-		WriteTimeout: time.Duration(cfg.Server.Timeout) * time.Second,
-		ReadTimeout:  time.Duration(cfg.Server.Timeout) * time.Second,
+		Addr:         fmt.Sprintf("%s:%s", cfg.CommonConfig.Server.Host, cfg.CommonConfig.Server.Port),
+		WriteTimeout: time.Duration(cfg.CommonConfig.Server.Timeout) * time.Second,
+		ReadTimeout:  time.Duration(cfg.CommonConfig.Server.Timeout) * time.Second,
 	}
 	serverStartTime := time.Now().UnixMilli()
 	logrus.Printf("Start time recorded %d", serverStartTime)
-	logrus.Printf("Metrics enabled: %v", cfg.Metrics.Enabled)
+	logrus.Printf("Metrics enabled: %v", cfg.CommonConfig.Metrics.Enabled)
 
 	var nluClient []clients.NluClient
 	for _, nluClientConfig := range cfg.NluClients {

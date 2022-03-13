@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 
 	"github.com/locmai/yuta/common"
+	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
@@ -46,9 +47,9 @@ type NluClientConfig struct {
 }
 
 type MessagingConfig struct {
-	common.CommonConfig
-	ChatClients []ChatClientConfig `yaml:"chatClients"`
-	NluClients  []NluClientConfig  `yaml:"nluClients"`
+	common.CommonConfig `yaml:"common,inline"`
+	ChatClients         []ChatClientConfig `yaml:"chatClients"`
+	NluClients          []NluClientConfig  `yaml:"nluClients"`
 }
 
 // Load the ConfigFile
@@ -56,6 +57,7 @@ func Load(configPath string) (*MessagingConfig, error) {
 	var config MessagingConfig
 
 	configData, err := ioutil.ReadFile(configPath)
+
 	if err != nil {
 		return nil, err
 	}
@@ -64,5 +66,8 @@ func Load(configPath string) (*MessagingConfig, error) {
 	if err = yaml.Unmarshal(configData, &config); err != nil {
 		return nil, err
 	}
+
+	logrus.Info(config.ChatClients[0].ChatClientType)
+	logrus.Info(config.Metrics.Enabled)
 	return &config, nil
 }

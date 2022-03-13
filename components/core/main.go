@@ -37,8 +37,7 @@ func main() {
 	}
 	serverStartTime := time.Now().UnixMilli()
 	logrus.Printf("Start time recorded %d", serverStartTime)
-	logrus.Printf("Metrics enabled: %s", cfg.Metrics.Enabled)
-	logrus.Printf("Tracing enabled: %v", cfg.Tracing.Enabled)
+	logrus.Printf("Metrics enabled: %v", cfg.Metrics.Enabled)
 	messagingConsumer := consumers.NewActionableItemEventConsumer(*common.NewProcessContext(), cfg, js)
 
 	for _, appservicesCfg := range cfg.AppServices {

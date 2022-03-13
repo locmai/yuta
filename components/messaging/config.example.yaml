@@ -10,19 +10,19 @@ jetstream:
   topic_prefix: "Yuta"
 
 metrics:
-  enabled: false
+  enabled: true
 
 tracing:
   enabled: false
 
 logging:
-  type: "stdout"
-  level: "DEBUG"
-  params: []
+  - type: "stdout"
+    level: "DEBUG"
+
 
 chatClients:
   - username: "yuta"
-    password: "verystronkone"
+    password: "verystronkpassword"
     homeserverurl: "dendrite.maibaloc.com"
     type: "matrix"
 
@@ -30,6 +30,3 @@ nluClients:
   - projectid: "yuta-seig"
     languagecode: "en-US"
     type: "diaglogflow"
-
-
-

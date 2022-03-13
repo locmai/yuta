@@ -41,6 +41,8 @@ type ObjectMeta struct {
 	Namespace   string
 	Labels      map[string]string
 	Annotations map[string]string
+	// TODO Remove this Value later
+	Value float64
 }
 
 func (s KubeopsAppService) Act(action Action, metadata ObjectMeta) {

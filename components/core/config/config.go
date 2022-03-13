@@ -19,8 +19,8 @@ type AppService struct {
 }
 
 type CoreConfig struct {
-	common.CommonConfig
-	AppServices []AppService
+	common.CommonConfig `yaml:"common,inline"`
+	AppServices         []AppService
 }
 
 // Load the ConfigFile

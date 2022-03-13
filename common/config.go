@@ -62,7 +62,4 @@ type LogrusHook struct {
 
 	// The level of the logs to produce. Will output only this level and above.
 	Level string `yaml:"level"`
-
-	// The parameters for this hook.
-	Params map[string]interface{} `yaml:"params"`
 }
