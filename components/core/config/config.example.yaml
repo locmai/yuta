@@ -1,0 +1,20 @@
+server:
+  host: "0.0.0.0"
+  port: "8500"
+  timeout: 15
+
+jetstream:
+  addresses: 
+  - "0.0.0.0:4222"
+  topic_prefix: "Yuta"
+
+metrics:
+  enabled: false
+
+tracing:
+  enabled: false
+
+logging:
+  type: "stdout"
+  level: "DEBUG"
+  params: []
