@@ -56,6 +56,7 @@ func NewMatrixClient(c config.ChatClientConfig, startTime int64, nluClient NluCl
 		panic(err)
 	}
 
+	logrus.Printf("Login with %s", c.Username)
 	authType := mautrix.AuthTypePassword
 
 	matrixClient := MatrixClient{

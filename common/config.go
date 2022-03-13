@@ -51,12 +51,6 @@ type Metrics struct {
 	// Whether or not the metrics are enabled
 	Enabled bool `yaml:"enabled"`
 	// Use BasicAuth for Authorization
-	BasicAuth struct {
-		// Authorization via Static Username & Password
-		// Hardcoded Username and Password
-		Username string `yaml:"username"`
-		Password string `yaml:"password"`
-	} `yaml:"basic_auth"`
 }
 
 // LogrusHook represents a single logrus hook. At this point, only parsing and

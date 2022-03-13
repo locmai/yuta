@@ -3,7 +3,6 @@ package consumers
 import (
 	"context"
 	"encoding/json"
-	"strings"
 
 	"github.com/locmai/yuta/common"
 	"github.com/locmai/yuta/common/jetstream"
@@ -52,14 +51,12 @@ func (s *ActionableItemEventConsumer) onMessage(ctx context.Context, msg *nats.M
 		return true
 	}
 
-	actionParts := strings.Split(actionableItem.Action, ".")
-	if actionParts[0] == string(config.KubeopsAppService) {
-		s.KubeopsAppService.Act(appservices.Action(actionParts[1]), appservices.ObjectMeta{
-			Name:      actionableItem.Name,
-			Namespace: actionableItem.Namespace,
-		})
-	}
+	s.KubeopsAppService.Act(appservices.Action(actionableItem.Action), appservices.ObjectMeta{
+		Name:      actionableItem.Name,
+		Namespace: actionableItem.Namespace,
+		Value:     actionableItem.Value,
+	})
 
-	logrus.Printf("Ack actionableItem.Name %s", actionableItem.Name)
+	logrus.Printf("Ack actionableItem.Action %s", actionableItem.Action)
 	return true
 }

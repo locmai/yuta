@@ -37,8 +37,8 @@ func main() {
 	}
 	serverStartTime := time.Now().UnixMilli()
 	logrus.Printf("Start time recorded %d", serverStartTime)
-	logrus.Printf("Metrics enabled: %v", cfg.Metrics.Enabled)
-
+	logrus.Printf("Metrics enabled: %s", cfg.Metrics.Enabled)
+	logrus.Printf("Tracing enabled: %v", cfg.Tracing.Enabled)
 	messagingConsumer := consumers.NewActionableItemEventConsumer(*common.NewProcessContext(), cfg, js)
 
 	for _, appservicesCfg := range cfg.AppServices {
@@ -48,7 +48,7 @@ func main() {
 		case config.PrometheusAppService:
 			logrus.Printf("Client is not implemented %s", appserviceType)
 		default:
-			logrus.Printf("Client is not implemented %s", appserviceType)
+			logrus.Printf("Client is not implemented  %s", appserviceType)
 		}
 	}
 	messagingConsumer.Start()

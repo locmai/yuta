@@ -18,3 +18,7 @@ logging:
   type: "stdout"
   level: "DEBUG"
   params: []
+
+appservices:
+- type: "kubeops"
+  auth: "in-cluster"
