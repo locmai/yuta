@@ -10,10 +10,10 @@ import (
 )
 
 type KubeopsAppService struct {
-	KuberClientSet kubernetes.Clientset
+	KubeClientSet kubernetes.Clientset
 }
 
-func NewKubeClient() *KubeopsAppService {
+func NewKubeopsAppService() *KubeopsAppService {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		panic(err.Error())
@@ -24,7 +24,7 @@ func NewKubeClient() *KubeopsAppService {
 		panic(err.Error())
 	}
 	return &KubeopsAppService{
-		KuberClientSet: *clientset,
+		KubeClientSet: *clientset,
 	}
 }
 
@@ -58,7 +58,7 @@ func (s KubeopsAppService) Act(action Action, metadata ObjectMeta) {
 
 func (s KubeopsAppService) scaleDeployment(name, namespace string) {
 	ctx := context.Background()
-	deploymentClient := s.KuberClientSet.AppsV1().Deployments(namespace)
+	deploymentClient := s.KubeClientSet.AppsV1().Deployments(namespace)
 
 	deployment, err := deploymentClient.Get(ctx, name, metav1.GetOptions{})
 	if err != nil {

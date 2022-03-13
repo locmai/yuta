@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/locmai/yuta/common"
 	"github.com/locmai/yuta/common/jetstream"
+	"github.com/locmai/yuta/components/core/appservices"
 	"github.com/locmai/yuta/components/core/config"
 	"github.com/locmai/yuta/components/core/consumers"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -40,6 +41,16 @@ func main() {
 
 	messagingConsumer := consumers.NewActionableItemEventConsumer(*common.NewProcessContext(), cfg, js)
 
+	for _, appservicesCfg := range cfg.AppServices {
+		switch appserviceType := appservicesCfg.AppServiceType; appserviceType {
+		case config.KubeopsAppService:
+			messagingConsumer.KubeopsAppService = *appservices.NewKubeopsAppService()
+		case config.PrometheusAppService:
+			logrus.Printf("Client is not implemented %s", appserviceType)
+		default:
+			logrus.Printf("Client is not implemented %s", appserviceType)
+		}
+	}
 	messagingConsumer.Start()
 
 	logrus.Println("Server started")

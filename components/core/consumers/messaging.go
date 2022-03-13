@@ -3,20 +3,23 @@ package consumers
 import (
 	"context"
 	"encoding/json"
+	"strings"
 
 	"github.com/locmai/yuta/common"
 	"github.com/locmai/yuta/common/jetstream"
 	"github.com/locmai/yuta/common/utils"
+	"github.com/locmai/yuta/components/core/appservices"
 	"github.com/locmai/yuta/components/core/config"
 	"github.com/nats-io/nats.go"
 	"github.com/sirupsen/logrus"
 )
 
 type ActionableItemEventConsumer struct {
-	ctx       common.ProcessContext
-	JetStream nats.JetStreamContext
-	Topic     string
-	Durable   string
+	ctx               common.ProcessContext
+	JetStream         nats.JetStreamContext
+	Topic             string
+	Durable           string
+	KubeopsAppService appservices.KubeopsAppService
 }
 
 // NewOutputRoomEventConsumer creates a new OutputRoomEventConsumer. Call Start() to begin consuming from room servers.
@@ -48,6 +51,15 @@ func (s *ActionableItemEventConsumer) onMessage(ctx context.Context, msg *nats.M
 		logrus.WithError(err).Errorf("Core server output log: message parse failure")
 		return true
 	}
+
+	actionParts := strings.Split(actionableItem.Action, ".")
+	if actionParts[0] == string(config.KubeopsAppService) {
+		s.KubeopsAppService.Act(appservices.Action(actionParts[1]), appservices.ObjectMeta{
+			Name:      actionableItem.Name,
+			Namespace: actionableItem.Namespace,
+		})
+	}
+
 	logrus.Printf("Ack actionableItem.Name %s", actionableItem.Name)
 	return true
 }
