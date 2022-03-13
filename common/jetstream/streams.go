@@ -15,7 +15,8 @@ var (
 
 var streams = []*nats.StreamConfig{
 	{
-		Name:      ActionableItemEvent,
-		Retention: nats.WorkQueuePolicy,
-		Storage:   nats.FileStorage,
+		Name:        ActionableItemEvent,
+		Retention:   nats.WorkQueuePolicy,
+		Description: "Actionale events that Core could pick up and process",
+		Storage:     nats.FileStorage,
 	}}
