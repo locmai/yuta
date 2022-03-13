@@ -1,8 +1,8 @@
 package clients
 
 import (
-	"fmt"
-
+	"github.com/locmai/yuta/common/utils"
+	"github.com/locmai/yuta/components/core/appservices"
 	"github.com/locmai/yuta/components/messaging/config"
 	"github.com/locmai/yuta/components/messaging/producers"
 	"github.com/sirupsen/logrus"
@@ -12,9 +12,10 @@ import (
 
 type MatrixClient struct {
 	mautrix.Client
-	NluClient    NluClient
-	StartTime    int64
-	CoreProducer producers.CoreProducer
+	NluClient         NluClient
+	StartTime         int64
+	CoreProducer      producers.CoreProducer
+	KubeopsActionData utils.KubeopsActionData
 }
 
 // Start listening on client /sync streams
@@ -23,16 +24,27 @@ func (c *MatrixClient) StartSyncer() {
 	syncer.OnEventType(event.EventMessage, func(source mautrix.EventSource, evt *event.Event) {
 		if evt.Sender == "@locmai:dendrite.maibaloc.com" && evt.Timestamp > c.StartTime {
 			logrus.Printf("<%[1]s> %[4]s (%[2]s/%[3]s)\n", evt.Sender, evt.Type.String(), evt.ID, evt.Content.AsMessage().Body)
-			c.SendText(evt.RoomID, evt.Content.AsMessage().Body)
-
-			_, action, err := c.NluClient.DetectIntentText("test", evt.Content.AsMessage().Body)
+			action, params, repsonseText, err := c.NluClient.DetectIntentText("test", evt.Content.AsMessage().Body)
 			if err != nil {
 				panic(err)
 			}
-			if action == "scale" {
-				c.CoreProducer.SendActionData("test-name", "test-namespace", action)
+
+			if action == "input.scale" {
+				for k, v := range params {
+					logrus.Printf("%s has value %s", k, v.GetStringValue())
+				}
+				c.KubeopsActionData = utils.KubeopsActionData{
+					Name:      params["app"].GetStringValue(),
+					Namespace: params["namespace"].GetStringValue(),
+				}
+				c.SendText(evt.RoomID, repsonseText)
 			}
-			c.SendText(evt.RoomID, fmt.Sprintf("Action detected: %s", action))
+			if action == "kubeops.scale" {
+				c.KubeopsActionData.Action = string(appservices.ScaleAction)
+				c.KubeopsActionData.Value = params["number"].GetNumberValue()
+				c.SendText(evt.RoomID, repsonseText)
+				c.CoreProducer.SendActionData(c.KubeopsActionData)
+			}
 		}
 	})
 	go c.Sync()

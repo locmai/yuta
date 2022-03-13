@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	dialogflow "cloud.google.com/go/dialogflow/apiv2"
+	structpb "github.com/golang/protobuf/ptypes/struct"
 	"github.com/locmai/yuta/components/messaging/config"
 	dialogflowpb "google.golang.org/genproto/googleapis/cloud/dialogflow/v2"
 )
@@ -28,17 +29,17 @@ func NewDiaglogflowClient(c config.NluClientConfig) (*DiaglogflowClient, error) 
 	}, nil
 }
 
-func (d DiaglogflowClient) DetectIntentText(sessionID, text string) (string, string, error) {
+func (d DiaglogflowClient) DetectIntentText(sessionID, text string) (string, map[string]*structpb.Value, string, error) {
 	ctx := context.Background()
 
 	sessionClient, err := dialogflow.NewSessionsClient(ctx)
 	if err != nil {
-		return "", "", err
+		return "", nil, "", err
 	}
 	defer sessionClient.Close()
 
 	if d.ProjectID == "" || sessionID == "" {
-		return "", "", fmt.Errorf("received empty project (%s) or session (%s)", d.ProjectID, sessionID)
+		return "", nil, "", fmt.Errorf("received empty project (%s) or session (%s)", d.ProjectID, sessionID)
 	}
 
 	sessionPath := fmt.Sprintf("projects/%s/agent/sessions/%s", d.ProjectID, sessionID)
@@ -49,11 +50,12 @@ func (d DiaglogflowClient) DetectIntentText(sessionID, text string) (string, str
 
 	response, err := sessionClient.DetectIntent(ctx, &request)
 	if err != nil {
-		return "", "", err
+		return "", nil, "", err
 	}
 
 	queryResult := response.GetQueryResult()
-	fulfillmentText := queryResult.GetFulfillmentText()
 	actionDetected := queryResult.Action
-	return fulfillmentText, actionDetected, nil
+	queryParams := queryResult.Parameters.Fields
+	repsonseText := queryResult.FulfillmentText
+	return actionDetected, queryParams, repsonseText, nil
 }

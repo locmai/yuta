@@ -14,17 +14,13 @@ type CoreProducer struct {
 }
 
 // SendActionData sends action data to the core server
-func (p *CoreProducer) SendActionData(name string, namespace string, action string) error {
+func (p *CoreProducer) SendActionData(inputData utils.KubeopsActionData) error {
 	m := &nats.Msg{
 		Subject: p.Topic,
 		Header:  nats.Header{},
 	}
 
-	data := utils.KubeopsActionData{
-		Action:    action,
-		Name:      name,
-		Namespace: namespace,
-	}
+	data := inputData
 
 	var err error
 	m.Data, err = json.Marshal(data)
