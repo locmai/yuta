@@ -15,7 +15,7 @@ var (
 )
 
 // ParseFlags parses the commandline flags and uses them to create a config.
-func ParseFlags() *MessagingConfig {
+func ParseFlags() *CoreConfig {
 	flag.Parse()
 
 	if *version {

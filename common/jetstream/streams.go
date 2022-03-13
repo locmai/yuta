@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	UserID = "user_id"
-	RoomID = "room_id"
+	Name      = "name"
+	Namespace = "namespace"
 )
 
 var (

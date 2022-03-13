@@ -10,6 +10,7 @@ import (
 	"github.com/locmai/yuta/common/jetstream"
 	"github.com/locmai/yuta/components/messaging/clients"
 	"github.com/locmai/yuta/components/messaging/config"
+	"github.com/locmai/yuta/components/messaging/producers"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 )
@@ -18,7 +19,7 @@ func main() {
 	cfg := config.ParseFlags()
 	router := mux.NewRouter()
 
-	jetstream.Prepare(&cfg.JetStream)
+	js := jetstream.Prepare(&cfg.JetStream)
 
 	if cfg.Metrics.Enabled {
 		router.Path("/metrics").Handler(promhttp.Handler())
@@ -26,6 +27,11 @@ func main() {
 	router.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 	})
+
+	coreProducer := &producers.CoreProducer{
+		JetStream: js,
+		Topic:     cfg.JetStream.TopicFor(jetstream.ActionableItemEvent),
+	}
 
 	srv := &http.Server{
 		Handler:      router,
@@ -56,7 +62,7 @@ func main() {
 		case config.MatrixType:
 			// TODO: Use only one nluclient at the moment
 			// So it would be the first one
-			client, err := clients.NewMatrixClient(chatClientConfig, serverStartTime, nluClient[0])
+			client, err := clients.NewMatrixClient(chatClientConfig, serverStartTime, nluClient[0], *coreProducer)
 			if err != nil {
 				panic(err)
 			}

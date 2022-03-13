@@ -8,6 +8,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type JetStreamPublisher interface {
+	PublishMsg(*nats.Msg, ...nats.PubOpt) (*nats.PubAck, error)
+}
+
 func JetStreamConsumer(ctx context.Context, js nats.JetStreamContext, subj, durable string,
 	f func(ctx context.Context, msg *nats.Msg) bool,
 	opts ...nats.SubOpt,

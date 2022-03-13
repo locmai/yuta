@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/locmai/yuta/components/messaging/config"
+	"github.com/locmai/yuta/components/messaging/producers"
 	"github.com/sirupsen/logrus"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
@@ -11,8 +12,9 @@ import (
 
 type MatrixClient struct {
 	mautrix.Client
-	NluClient NluClient
-	StartTime int64
+	NluClient    NluClient
+	StartTime    int64
+	CoreProducer producers.CoreProducer
 }
 
 // Start listening on client /sync streams
@@ -27,13 +29,16 @@ func (c *MatrixClient) StartSyncer() {
 			if err != nil {
 				panic(err)
 			}
+			if action == "scale" {
+				c.CoreProducer.SendActionData("test-name", "test-namespace", action)
+			}
 			c.SendText(evt.RoomID, fmt.Sprintf("Action detected: %s", action))
 		}
 	})
 	go c.Sync()
 }
 
-func NewMatrixClient(c config.ChatClientConfig, startTime int64, nluClient NluClient) (*MatrixClient, error) {
+func NewMatrixClient(c config.ChatClientConfig, startTime int64, nluClient NluClient, coreProducer producers.CoreProducer) (*MatrixClient, error) {
 	client, err := mautrix.NewClient(c.HomeserverURL, "", "")
 	if err != nil {
 		panic(err)
@@ -42,8 +47,9 @@ func NewMatrixClient(c config.ChatClientConfig, startTime int64, nluClient NluCl
 	authType := mautrix.AuthTypePassword
 
 	matrixClient := MatrixClient{
-		NluClient: nluClient,
-		StartTime: startTime,
+		NluClient:    nluClient,
+		StartTime:    startTime,
+		CoreProducer: coreProducer,
 	}
 
 	if c.Password == "" {
