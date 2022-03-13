@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/locmai/yuta/common"
 	"github.com/nats-io/nats.go"
 	"github.com/sirupsen/logrus"
 )
@@ -12,8 +13,7 @@ type JetStreamPublisher interface {
 	PublishMsg(*nats.Msg, ...nats.PubOpt) (*nats.PubAck, error)
 }
 
-func JetStreamConsumer(ctx context.Context, js nats.JetStreamContext, subj, durable string,
-	f func(ctx context.Context, msg *nats.Msg) bool,
+func JetStreamConsumer(ctx common.ProcessContext, js nats.JetStreamContext, subj, durable string, f func(ctx context.Context, msg *nats.Msg) bool,
 	opts ...nats.SubOpt,
 ) error {
 	defer func() {
@@ -24,7 +24,7 @@ func JetStreamConsumer(ctx context.Context, js nats.JetStreamContext, subj, dura
 		// "Pull" suffixed to their name.
 		if _, err := js.ConsumerInfo(subj, durable); err == nil {
 			if err := js.DeleteConsumer(subj, durable); err != nil {
-				logrus.WithContext(ctx).Warnf("Failed to clean up old consumer %q", durable)
+				logrus.WithContext(ctx.Context()).Warnf("Failed to clean up old consumer %q", durable)
 			}
 		}
 	}()
@@ -33,20 +33,16 @@ func JetStreamConsumer(ctx context.Context, js nats.JetStreamContext, subj, dura
 	if err != nil {
 		return fmt.Errorf("nats.SubscribeSync: %w", err)
 	}
+
 	go func() {
 		for {
-			// The context behaviour here is surprising — we supply a context
-			// so that we can interrupt the fetch if we want, but NATS will still
-			// enforce its own deadline (roughly 5 seconds by default). Therefore
-			// it is our responsibility to check whether our context expired or
-			// not when a context error is returned. Footguns. Footguns everywhere.
-			msgs, err := sub.Fetch(1, nats.Context(ctx))
+			msgs, err := sub.Fetch(1, nats.Context(ctx.Context()))
 			if err != nil {
 				if err == context.Canceled || err == context.DeadlineExceeded {
 					// Work out whether it was the JetStream context that expired
 					// or whether it was our supplied context.
 					select {
-					case <-ctx.Done():
+					case <-ctx.Context().Done():
 						// The supplied context expired, so we want to stop the
 						// consumer altogether.
 						return
@@ -57,7 +53,7 @@ func JetStreamConsumer(ctx context.Context, js nats.JetStreamContext, subj, dura
 					}
 				} else {
 					// Something else went wrong, so we'll panic.
-					logrus.WithContext(ctx).WithField("subject", subj).Fatal(err)
+					logrus.WithContext(ctx.Context()).WithField("subject", subj).Fatal(err)
 				}
 			}
 			if len(msgs) < 1 {
@@ -65,16 +61,16 @@ func JetStreamConsumer(ctx context.Context, js nats.JetStreamContext, subj, dura
 			}
 			msg := msgs[0]
 			if err = msg.InProgress(); err != nil {
-				logrus.WithContext(ctx).WithField("subject", subj).Warn(fmt.Errorf("msg.InProgress: %w", err))
+				logrus.WithContext(ctx.Context()).WithField("subject", subj).Warn(fmt.Errorf("msg.InProgress: %w", err))
 				continue
 			}
-			if f(ctx, msg) {
+			if f(ctx.Context(), msg) {
 				if err = msg.Ack(); err != nil {
-					logrus.WithContext(ctx).WithField("subject", subj).Warn(fmt.Errorf("msg.Ack: %w", err))
+					logrus.WithContext(ctx.Context()).WithField("subject", subj).Warn(fmt.Errorf("msg.Ack: %w", err))
 				}
 			} else {
 				if err = msg.Nak(); err != nil {
-					logrus.WithContext(ctx).WithField("subject", subj).Warn(fmt.Errorf("msg.Nak: %w", err))
+					logrus.WithContext(ctx.Context()).WithField("subject", subj).Warn(fmt.Errorf("msg.Nak: %w", err))
 				}
 			}
 		}

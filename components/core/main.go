@@ -7,8 +7,10 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/locmai/yuta/common"
 	"github.com/locmai/yuta/common/jetstream"
-	"github.com/locmai/yuta/components/messaging/config"
+	"github.com/locmai/yuta/components/core/config"
+	"github.com/locmai/yuta/components/core/consumers"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 )
@@ -17,7 +19,7 @@ func main() {
 	cfg := config.ParseFlags()
 	router := mux.NewRouter()
 
-	jetstream.Prepare(&cfg.JetStream)
+	js := jetstream.Prepare(&cfg.JetStream)
 
 	if cfg.Metrics.Enabled {
 		router.Path("/metrics").Handler(promhttp.Handler())
@@ -35,6 +37,10 @@ func main() {
 	serverStartTime := time.Now().UnixMilli()
 	logrus.Printf("Start time recorded %d", serverStartTime)
 	logrus.Printf("Metrics enabled: %v", cfg.Metrics.Enabled)
+
+	messagingConsumer := consumers.NewActionableItemEventConsumer(*common.NewProcessContext(), cfg, js)
+
+	messagingConsumer.Start()
 
 	logrus.Println("Server started")
 	logrus.Fatal(srv.ListenAndServe())

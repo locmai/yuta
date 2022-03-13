@@ -38,6 +38,10 @@ func (c *JetStream) TopicFor(name string) string {
 	return fmt.Sprintf("%s%s", c.TopicPrefix, name)
 }
 
+func (c *JetStream) Durable(name string) string {
+	return c.TopicFor(name)
+}
+
 func (c *JetStream) Defaults(generate bool) {
 	c.Addresses = []string{"0.0.0.0:4222"}
 	c.TopicPrefix = "Yuta"
