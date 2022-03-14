@@ -16,12 +16,14 @@ type KubeopsAppService struct {
 func NewKubeopsAppService() *KubeopsAppService {
 	config, err := rest.InClusterConfig()
 	if err != nil {
-		panic(err.Error())
+		logrus.Warn("Unable to initialize KubeOps appservicem, skipping.")
+		return nil
 	}
 	// creates the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		panic(err.Error())
+		logrus.Warn("Unable to initialize KubeOps appservicem, skipping.")
+		return nil
 	}
 	return &KubeopsAppService{
 		KubeClientSet: *clientset,
@@ -48,7 +50,7 @@ type ObjectMeta struct {
 func (s KubeopsAppService) Act(action Action, metadata ObjectMeta) {
 	switch action {
 	case ScaleAction:
-		s.scaleDeployment(metadata.Name, metadata.Namespace)
+		s.scaleDeployment(metadata.Name, metadata.Namespace, metadata.Value)
 	case RestartAction:
 		s.restartDeployment()
 	case GetAction:
@@ -58,7 +60,7 @@ func (s KubeopsAppService) Act(action Action, metadata ObjectMeta) {
 	}
 }
 
-func (s KubeopsAppService) scaleDeployment(name, namespace string) {
+func (s KubeopsAppService) scaleDeployment(name, namespace string, value float64) {
 	ctx := context.Background()
 	deploymentClient := s.KubeClientSet.AppsV1().Deployments(namespace)
 
@@ -67,7 +69,8 @@ func (s KubeopsAppService) scaleDeployment(name, namespace string) {
 		logrus.Errorf("Failed to get deployment: %v", err)
 	}
 
-	deployment.Spec.Replicas = int32Ptr(10)
+	parsedValue := int32(value)
+	deployment.Spec.Replicas = &parsedValue
 
 	deploymentClient.Update(ctx, deployment, metav1.UpdateOptions{})
 }
@@ -79,5 +82,3 @@ func (s KubeopsAppService) restartDeployment() {
 func (s KubeopsAppService) getDeployment() {
 	logrus.Printf("Action requested is not implemented")
 }
-
-func int32Ptr(i int32) *int32 { return &i }

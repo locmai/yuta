@@ -54,7 +54,8 @@ func (s *ActionableItemEventConsumer) onMessage(ctx context.Context, msg *nats.M
 	s.KubeopsAppService.Act(appservices.Action(actionableItem.Action), appservices.ObjectMeta{
 		Name:      actionableItem.Name,
 		Namespace: actionableItem.Namespace,
-		Value:     actionableItem.Value,
+		// TODO: Remove this later when we have a better message structure
+		Value: actionableItem.Value,
 	})
 
 	logrus.Printf("Ack actionableItem.Action %s", actionableItem.Action)
