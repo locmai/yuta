@@ -36,11 +36,13 @@ func main() {
 		ReadTimeout:  time.Duration(cfg.Server.Timeout) * time.Second,
 	}
 	serverStartTime := time.Now().UnixMilli()
+	// TODO: Have a function to verify and print out these common configuration
 	logrus.Printf("Start time recorded %d", serverStartTime)
 	logrus.Printf("Metrics enabled: %v", cfg.Metrics.Enabled)
 	messagingConsumer := consumers.NewActionableItemEventConsumer(*common.NewProcessContext(), cfg, js)
 
 	for _, appservicesCfg := range cfg.AppServices {
+		logrus.Printf("Initialize %s appservice", appservicesCfg.AppServiceType)
 		switch appserviceType := appservicesCfg.AppServiceType; appserviceType {
 		case config.KubeopsAppService:
 			messagingConsumer.KubeopsAppService = *appservices.NewKubeopsAppService()
