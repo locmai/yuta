@@ -1,0 +1,38 @@
+version: "3.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - hey [Yuta](name)!
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: scale_deployment
+  examples: |
+    - scale the [helloworld](name) deployment in the [default](namespace) namespace to [5](replicas) pods
+    - could you help me scale the [helloworld](name) pods to [6](replicas), the namespace is [default](namespace)
+    - scale the [echo](name) application in the [apps](namespace) namespace to [10](replicas) pods

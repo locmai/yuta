@@ -12,6 +12,7 @@ current status: alpha
     - [ ] slack
   - natural language understanding clients:
     - [x] diaglogflow
+    - [ ] rasa
     - [ ] luis
 - core:
   - appservices:

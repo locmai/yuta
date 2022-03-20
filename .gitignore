@@ -24,3 +24,11 @@ config.yaml
 nats-data
 
 build
+
+# Python / RASA
+.rasa
+venv
+env
+models
+__pycache__
+results
