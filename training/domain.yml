@@ -3,6 +3,12 @@ version: "3.0"
 intents:
   - greet
   - goodbye
+  - scale_deployment
+
+entities:
+  - name
+  - namespace
+  - replicas
 
 responses:
   utter_greet:
@@ -12,6 +18,9 @@ responses:
   utter_goodbye:
   - text: "Bye"
   - text: "See ya!"
+
+actions:
+  - action_scale_deployment
 
 session_config:
   session_expiration_time: 60

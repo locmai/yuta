@@ -33,9 +33,10 @@ func NewKubeopsAppService() *KubeopsAppService {
 type Action string
 
 const (
-	ScaleAction   Action = "scale"
-	RestartAction Action = "restart"
-	GetAction     Action = "get"
+	ScaleAction              Action = "scale"
+	RestartAction            Action = "restart"
+	GetAction                Action = "get"
+	ClusterHealthCheckAction Action = "cluster_health_check"
 )
 
 type ObjectMeta struct {
@@ -55,6 +56,8 @@ func (s KubeopsAppService) Act(action Action, metadata ObjectMeta) {
 		s.restartDeployment()
 	case GetAction:
 		s.getDeployment()
+	case ClusterHealthCheckAction:
+		s.clusterHealthCheck()
 	default:
 		logrus.Printf("Action requested is not implemented %s", action)
 	}
@@ -81,4 +84,10 @@ func (s KubeopsAppService) restartDeployment() {
 
 func (s KubeopsAppService) getDeployment() {
 	logrus.Printf("Action requested is not implemented")
+}
+
+func (s KubeopsAppService) clusterHealthCheck() {
+	logrus.Printf("Action requested is not implemented")
+
+	// TODO produce results back to messaging
 }

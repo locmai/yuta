@@ -2,6 +2,11 @@ version: "3.0"
 
 rules:
 
+- rule: Scale deployment
+  steps:
+  - intent: scale_deployment
+  - action: action_scale_deployment
+
 - rule: Say greet anytime the user says greet
   steps:
   - intent: greet

@@ -32,3 +32,4 @@ env
 models
 __pycache__
 results
+train_test_split
