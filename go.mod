@@ -14,7 +14,7 @@ require (
 	google.golang.org/genproto v0.0.0-20220505152158-f39f71e6c8f3
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/apimachinery v0.24.0
-	k8s.io/client-go v0.24.0-alpha.4
+	k8s.io/client-go v1.5.2
 	maunium.net/go/mautrix v0.10.12
 )
 
