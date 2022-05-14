@@ -127,7 +127,7 @@ terminaltables==3.1.10
 threadpoolctl==3.1.0
 toolz==0.11.2
 tqdm==4.64.0
-twilio==6.50.1
+twilio==7.9.0
 typeguard==2.13.3
 typing-extensions==3.7.4.3
 typing-utils==0.1.0
