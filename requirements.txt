@@ -18,7 +18,7 @@ cffi==1.15.0
 chardet==3.0.4
 charset-normalizer==2.0.12
 clang==5.0
-cloudpickle==1.6.0
+cloudpickle==2.0.0
 colorclass==2.2.2
 coloredlogs==15.0.1
 colorhash==1.0.4
