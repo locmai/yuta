@@ -21,6 +21,8 @@ current status: alpha
     - [ ] argocd
     - [ ] faq
 - pad: tbd
+- webhook:
+  - [ ] alertmanager
 - others:
   - [x] dockerfile
   - [x] chart

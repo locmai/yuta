@@ -1,4 +1,4 @@
-package receiver
+package services
 
 import (
 	"encoding/json"
@@ -8,7 +8,18 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func HandleWebhook(w http.ResponseWriter, r *http.Request) {
+type OperationType string
+
+const (
+	ActionOperationType  OperationType = "action"
+	MessageOperationType OperationType = "message"
+)
+
+func (o OperationType) String() string {
+	return string(o)
+}
+
+func HandleAlertmanagerWebhook(w http.ResponseWriter, r *http.Request) {
 	var alerts template.Data
 	err := json.NewDecoder(r.Body).Decode(&alerts)
 	if err != nil {
@@ -17,10 +28,15 @@ func HandleWebhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = logAlertsFromAlertmanager(alerts)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		panic(err)
+	for _, alert := range alerts.Alerts {
+		logrus.Printf("New %s operation received", alert.Labels["yuta_operation"])
+		switch operationType := alert.Labels["yuta_operation"]; operationType {
+		case ActionOperationType.String():
+
+		case MessageOperationType.String():
+
+		}
+
 	}
 }
 

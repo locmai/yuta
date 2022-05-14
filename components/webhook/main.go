@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/locmai/yuta/common/jetstream"
 	"github.com/locmai/yuta/components/core/config"
-	"github.com/locmai/yuta/components/webhook/receiver"
+	"github.com/locmai/yuta/components/webhook/services"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 )
@@ -20,6 +20,10 @@ func main() {
 
 	jetstream.Prepare(&cfg.JetStream)
 
+	// coreProducer := &producers.CoreProducer{
+	// 	JetStream: js,
+	// }
+
 	if cfg.Metrics.Enabled {
 		router.Path("/metrics").Handler(promhttp.Handler())
 	}
@@ -27,7 +31,8 @@ func main() {
 		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 	})
 
-	router.HandleFunc("/webhook", receiver.HandleWebhook)
+	router.HandleFunc("/services/webhook", services.HandleAlertmanagerWebhook)
+
 	srv := &http.Server{
 		Handler:      router,
 		Addr:         fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port),
