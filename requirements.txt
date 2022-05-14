@@ -1,5 +1,5 @@
 absl-py==1.0.0
-aio-pika==6.8.2
+aio-pika==7.2.0
 aiofiles==0.8.0
 aiohttp==3.8.1
 aiormq==3.3.1
