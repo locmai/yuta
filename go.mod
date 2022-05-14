@@ -72,4 +72,4 @@ require (
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
-replace github.com/googleapis/gnostic => github.com/googleapis/gnostic v0.5.5
+replace github.com/googleapis/gnostic => github.com/googleapis/gnostic v0.6.9
