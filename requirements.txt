@@ -63,7 +63,7 @@ networkx==2.8
 numpy==1.22.3
 oauthlib==3.2.0
 opt-einsum==3.3.0
-packaging==20.9
+packaging==21.3
 pamqp==3.1.0
 partd==1.2.0
 Pillow==9.1.0
