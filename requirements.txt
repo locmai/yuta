@@ -131,7 +131,7 @@ twilio==6.50.1
 typeguard==2.13.3
 typing-extensions==3.7.4.3
 typing-utils==0.1.0
-tzlocal==2.1
+tzlocal==4.2
 ujson==4.3.0
 urllib3==1.26.9
 uvloop==0.16.0
