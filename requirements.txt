@@ -48,7 +48,7 @@ importlib-metadata==4.11.3
 jmespath==1.0.0
 joblib==1.1.0
 jsonpickle==2.2.0
-jsonschema==3.2.0
+jsonschema==4.5.1
 kafka-python==2.0.2
 keras==2.9.0
 Keras-Preprocessing==1.1.2
