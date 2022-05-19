@@ -13,7 +13,7 @@ boto3==1.23.3
 botocore==1.26.3
 CacheControl==0.12.11
 cachetools==5.1.0
-certifi==2021.10.8
+certifi==2022.5.18
 cffi==1.15.0
 chardet==4.0.0
 charset-normalizer==2.0.12
