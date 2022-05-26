@@ -13,7 +13,7 @@ require (
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
 	google.golang.org/genproto v0.0.0-20220525015930-6ca3db687a9d
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/apimachinery v0.24.0
+	k8s.io/apimachinery v0.24.1
 	k8s.io/client-go v0.24.0-alpha.4
 	maunium.net/go/mautrix v0.11.0
 )
