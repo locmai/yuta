@@ -9,8 +9,8 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
 bidict==0.22.0
-boto3==1.23.8
-botocore==1.26.8
+boto3==1.23.9
+botocore==1.26.9
 CacheControl==0.12.11
 cachetools==5.1.0
 certifi==2022.5.18.1
@@ -24,7 +24,7 @@ coloredlogs==15.0.1
 colorhash==1.0.4
 cryptography==37.0.2
 cycler==0.11.0
-dask==2022.5.1
+dask==2022.5.2
 decorator==5.1.1
 dm-tree==0.1.7
 dnspython==2.2.1
