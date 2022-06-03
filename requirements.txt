@@ -9,8 +9,8 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
 bidict==0.22.0
-boto3==1.24.1
-botocore==1.27.1
+boto3==1.24.2
+botocore==1.27.2
 CacheControl==0.12.11
 cachetools==5.2.0
 certifi==2022.5.18.1
@@ -57,7 +57,7 @@ locket==0.2.1
 Markdown==3.3.7
 matplotlib==3.5.2
 mattermostwrapper==2.2
-msgpack==1.0.3
+msgpack==1.0.4
 multidict==6.0.2
 networkx==2.8.2
 numpy==1.22.4
@@ -88,10 +88,10 @@ pytz==2022.1
 PyYAML==6.0
 questionary==1.10.0
 randomname==0.1.5
-rasa==3.1.0
+rasa==3.1.1
 rasa-sdk==3.1.1
-redis==4.3.2
-regex==2022.4.24
+redis==4.3.3
+regex==2022.6.2
 requests==2.27.1
 requests-oauthlib==1.3.1
 requests-toolbelt==0.9.1
