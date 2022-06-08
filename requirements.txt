@@ -9,8 +9,8 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
 bidict==0.22.0
-boto3==1.24.4
-botocore==1.27.4
+boto3==1.24.5
+botocore==1.27.5
 CacheControl==0.12.11
 cachetools==5.2.0
 certifi==2022.5.18.1
@@ -88,8 +88,8 @@ pytz==2022.1
 PyYAML==6.0
 questionary==1.10.0
 randomname==0.1.5
-rasa==3.1.1
-rasa-sdk==3.1.1
+rasa==3.1.2
+rasa-sdk==3.1.2
 redis==4.3.3
 regex==2022.6.2
 requests==2.27.1
@@ -113,7 +113,7 @@ slackclient==2.9.4
 SQLAlchemy==1.4.37
 tabulate==0.8.9
 tarsafe==0.0.3
-tensorboard==2.9.0
+tensorboard==2.9.1
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorflow==2.9.1
