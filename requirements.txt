@@ -9,8 +9,8 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
 bidict==0.22.0
-boto3==1.24.10
-botocore==1.27.10
+boto3==1.24.11
+botocore==1.27.11
 CacheControl==0.12.11
 cachetools==5.2.0
 certifi==2022.6.15
