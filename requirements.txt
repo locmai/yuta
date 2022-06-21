@@ -111,7 +111,7 @@ six==1.16.0
 sklearn-crfsuite==0.3.6
 slackclient==2.9.4
 SQLAlchemy==1.4.37
-tabulate==0.8.9
+tabulate==0.8.10
 tarsafe==0.0.3
 tensorboard==2.9.1
 tensorboard-data-server==0.6.1
