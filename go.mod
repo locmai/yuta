@@ -11,7 +11,7 @@ require (
 	github.com/prometheus/client_golang v1.12.2
 	github.com/sirupsen/logrus v1.8.1
 	github.com/uber/jaeger-client-go v2.30.0+incompatible
-	google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f
+	google.golang.org/genproto v0.0.0-20220628213854-d9e0b6570c03
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/apimachinery v0.24.2
 	k8s.io/client-go v0.24.0-alpha.4
