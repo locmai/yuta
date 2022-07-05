@@ -9,12 +9,12 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
 bidict==0.22.0
-boto3==1.24.20
-botocore==1.27.20
+boto3==1.24.22
+botocore==1.27.22
 CacheControl==0.12.11
 cachetools==5.2.0
 certifi==2022.6.15
-cffi==1.15.0
+cffi==1.15.1
 chardet==5.0.0
 charset-normalizer==2.1.0
 clang==14.0
@@ -66,7 +66,7 @@ opt-einsum==3.3.0
 packaging==21.3
 pamqp==3.2.0
 partd==1.2.0
-Pillow==9.1.1
+Pillow==9.2.0
 prompt-toolkit==3.0.30
 protobuf==4.21.2
 psycopg2-binary==2.9.3
@@ -82,8 +82,8 @@ pyrsistent==0.18.1
 pyTelegramBotAPI==4.6.0
 python-crfsuite==0.9.8
 python-dateutil==2.8.2
-python-engineio==4.3.2
-python-socketio==5.6.0
+python-engineio==4.3.3
+python-socketio==5.7.0
 pytz==2022.1
 PyYAML==6.0
 questionary==1.10.0
@@ -100,7 +100,7 @@ rsa==4.8
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.6
 s3transfer==0.6.0
-sanic==22.3.2
+sanic==22.6.0
 Sanic-Cors==2.0.1
 sanic-jwt==1.8.0
 sanic-routing==22.3.0
@@ -129,10 +129,10 @@ toolz==0.11.2
 tqdm==4.64.0
 twilio==7.10.0
 typeguard==2.13.3
-typing-extensions==4.2.0
+typing-extensions==4.3.0
 typing-utils==0.1.0
 tzlocal==4.2
-ujson==5.3.0
+ujson==5.4.0
 urllib3==1.26.9
 uvloop==0.16.0
 wcwidth==0.2.5
