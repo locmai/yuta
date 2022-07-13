@@ -9,8 +9,8 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==21.4.0
 bidict==0.22.0
-boto3==1.24.27
-botocore==1.27.27
+boto3==1.24.28
+botocore==1.27.28
 CacheControl==0.12.11
 cachetools==5.2.0
 certifi==2022.6.15
@@ -35,7 +35,7 @@ flatbuffers==2.0
 fsspec==2022.5.0
 future==0.18.2
 gast==0.5.3
-google-auth==2.9.0
+google-auth==2.9.1
 google-auth-oauthlib==0.5.2
 google-pasta==0.2.0
 greenlet==1.1.2
@@ -141,4 +141,4 @@ websockets==10.3
 Werkzeug==2.1.2
 wrapt==1.14.1
 yarl==1.7.2
-zipp==3.8.0
+zipp==3.8.1
